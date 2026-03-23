@@ -1,5 +1,5 @@
 ﻿ParkingManager
-
+1.0.0.0
 
 winexe
 C#
@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 C:\Users\Mirim\source\repos\ParkingManager\ParkingManager\App.xaml
 2-790874145
 
-6-1658917005
+81616344763
 198717675157
 MainWindow.xaml;ParkingFeeWindow.xaml;
 
-True
+False
 

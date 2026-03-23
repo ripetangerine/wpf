@@ -18,3 +18,4 @@ C:\Users\Mirim\source\repos\ParkingManager\ParkingManager\obj\Debug\net8.0-windo
 C:\Users\Mirim\source\repos\ParkingManager\ParkingManager\obj\Debug\net8.0-windows\ParkingManager.pdb
 C:\Users\Mirim\source\repos\ParkingManager\ParkingManager\obj\Debug\net8.0-windows\ParkingManager.genruntimeconfig.cache
 C:\Users\Mirim\source\repos\ParkingManager\ParkingManager\obj\Debug\net8.0-windows\ref\ParkingManager.dll
+C:\Users\Mirim\source\repos\ParkingManager\ParkingManager\obj\Debug\net8.0-windows\ParkingFeeWindow.g.cs

@@ -61,7 +61,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,5,0,5">
                     <TextBlock Text="출차 차량번호" Width="Auto" FontSize="14" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBox x:Name="txtCarNumber" Width="200" Height="28" FontSize="14" Margin="0,0,10,0"/>
+                    <TextBox x:Name="txtCarNumber" Width="200" Height="28" FontSize="14" TextChanged="txtCarNumber_TextChanged"/>
                     <Button Content="검색" Height="28" Width="60" Margin="0,0,5,0" Click="btnSearch_Click"/>
                     <Button Content="출차" Height="28" Width="60" Margin="0,0,100,0"/>
                     <Button Content="역순 목록" Height="28" Width="60" Margin="0,0,5,0" Click="btnReverse_Click"/>

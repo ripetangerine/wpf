@@ -9,14 +9,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace ParkingManager
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
     public partial class MainWindow : Window
     {
+        int fee10Min = 1500;
+        int fee1Hour = 4000;
         // 미출차 차량 목록 : 컬렉션 
         ObservableCollection<CarInfo> unsettledCars = new();
         // 입차 차량목록
@@ -51,7 +56,18 @@ namespace ParkingManager
 
         private void btnFeeSetting_Click(object sender, RoutedEventArgs e)
         {
+            var feeWindow = new ParkingFeeWindow(fee10Min, fee1Hour);
+            feeWindow.Owner = this;
 
+            if(feeWindow.ShowDialog() == true) // 확인을 눌렀을 때
+            {
+                fee10Min = feeWindow.Fee10Min;
+                fee1Hour = feeWindow.Fee1Hour;
+
+                MessageBox.Show("요금이 설정되었습니다\n"+ 
+                    "10분당: " + fee10Min.ToString("NO") + "원\n" + 
+                    "1시간당 : " + fee1Hour.ToString("NO") + "원", "설정완료");
+            }
         }
 
         private void btnEntry_Click(object sender, RoutedEventArgs e)
@@ -104,6 +120,11 @@ namespace ParkingManager
             // 입력란 초기화 + 포커스
             txtEntryCarNumber.Text = "";
             txtEntryCarNumber.Focus();
+        }
+
+        private void txtCarNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
