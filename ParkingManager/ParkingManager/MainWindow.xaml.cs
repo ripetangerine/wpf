@@ -126,5 +126,109 @@ namespace ParkingManager
         {
 
         }
+
+        // private < 클래스 내부에서만 사용한다는 의미
+        // object < 검색 버튼
+        // RoutedEventArgs < 이벤트 정보 
+
+        // 요금 계산 / DateTime-DateTime=TimeSpan
+        // 주차시간 = 출차시간 - 입차시간 (min) 
+        // 1. 10분 단위 계산
+        private void btnSearchExit_Click(object sender, RoutedEventArgs e)
+        {
+            string searchNumber = txtExitCarNumber.Text.Trim();
+            if (string.IsNullOrWhiteSpace(searchNumber))
+            {
+                MessageBox.Show("차량 번호를 입력하세요 ", "알림", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var found = unsettledCars.FirstOrDefault(
+                car => car.CarNumber.Contains(searchNumber) && car.ExitTime == null);
+
+            if(found != null)
+            {
+                dgUnsettledCars.SelectedItem = found;
+                dgUnsettledCars.ScrollIntoView(found);
+            }
+            else
+            {
+                MessageBox.Show("해당 차량을 찾을 수 없습니다.", "검색결과", MessageBoxButton.OK, MessageBoxImage.Warning); 
+            }
+        }
+
+        private void btnSearchEntry_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private int CalculateFee(DateTime entryTime, DateTime exitTime)
+        {
+            /**
+             * 1. 주차 시간 계산
+             * 2. 0분 이하 ? >> 요금 0
+             * 3. 10분 단위 요금 / 1시간 단위 요금 계산
+             * 4. 둘 중 저렴한 것으로 
+             * 
+             */
+            TimeSpan duration = entryTime - exitTime; // 두개의 시간의 차이
+            double totalMinutes = duration.TotalMinutes;
+
+            if (totalMinutes<= 0)
+            {
+                return 0;
+            }
+
+            int fee10 = (int)Math.Ceiling(totalMinutes / 10);
+            int fee60 = (int)Math.Ceiling(totalMinutes / 60);
+
+            return Math.Min(fee10, fee60);
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            // Datagrid에서 선택된 차량 가져오기
+            // dgUnsettledCars.SelectedItem < obj 타입으로 carinfo로 변환하면 안전하게 형변환됌
+            var selectedCar = dgUnsettledCars.SelectedItem as CarInfo;
+
+            if (selectedCar == null)
+            {
+                string searchNum = txtExitCarNumber.Text.Trim();
+                if (!string.IsNullOrWhiteSpace(searchNum))
+                {
+                    selectedCar = unsettledCars.FirstOrDefault(car => car.CarNumber.Contains(searchNum) &&
+                    car.ExitTime == null);
+                }
+                if (selectedCar == null)
+                {
+                    MessageBox.Show("출차할 차량을 선택하거나 차량 번호르 ㄹ입력하세요", "알림", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+              
+            }
+            if (selectedCar.ExitTime != null)
+            {
+                MessageBox.Show("이미 출차한 차량입니다.", "알림", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            var result = MessageBox.Show("차량을 출차하시니까? ", "출차 확인", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes) return;
+
+            DateTime exitTime = DateTime.Now; // 출차기록
+            selectedCar.ExitTime = exitTime;
+
+            int fee = CalculateFee(selectedCar.EntryTime, exitTime);
+            selectedCar.ParkingFee = fee;
+
+            dgUnsettledCars.Items.Refresh(); //  selectedCar.ExitTime = exitTime; << 여기서 데이터를 수동으로 바뀌었기에 새로고침 해줌
+
+            TimeSpan duration = exitTime - selectedCar.EntryTime;
+            MessageBox.Show("출차완료!\n\n" + "차량번호" + selectedCar.CarNumber + "\n" +
+                "입차:" + selectedCar.EntryTime.ToString("yyyy.MM.dd HH:mm") + "\n" +
+                "출차:" + exitTime.ToString("yyyy.MM.dd HH:mm") + "\n" +
+                "주차시간:" + (int)duration.TotalHours + "시간\n" +
+                "주차요금:" + fee.ToString("N0") + "원",
+                "출차완료");
+            txtEntryCarNumber.Text = "";
+        }
     }
 }
