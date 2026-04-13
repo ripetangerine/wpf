@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ParkingManager"
         mc:Ignorable="d"
-        Title="DiscountCodeWindow" Height="450" Width="500" FontSize="14">
+        Title="할인 코드 등록" Height="450" Width="500" FontSize="14">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -22,20 +22,21 @@
         <TextBlock Grid.Row="2" Text="목록" HorizontalAlignment="Right"/>
         <TextBlock Grid.Row="3" Text=""/>
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="10">
-            <TextBox Height="25" Width="250"/>
-            <Button Height="25" Width="100" Content="등록 및 수정" Margin="5"/>
+            <TextBox Height="25" Width="250" TextChanged="txtVisitPlace"/>
+            <Button Height="25" Width="100" Content="등록 및 수정" Margin="5" Click="btnRegister_Click"/>
         </StackPanel>
         <TextBox Grid.Row="1" Grid.Column="1" Height="25" Width="250" Margin="10,31,170,31"/>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-            <DataGrid Height="150" Width="300" SelectionChanged="DataGrid_SelectionChanged" Margin="10,0,0,0">
+            <DataGrid Height="150" Width="300" SelectionChanged="dgDiscountCodes" Margin="10,0,0,0">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="순번" Width="Auto"/>
-                    <DataGridTextColumn Header="방문처" Width="*"/>
-                    <DataGridTextColumn Header="무료시간" Width="Auto"/>
+                    <DataGridTextColumn Header="순번" Binding="{Binding No}" Width="Auto"/>
+                    <DataGridTextColumn Header="방문처" Binding="{Binding VisitPlace}" Width="*"/>
+                    <DataGridTextColumn Header="무료시간" Binding="{Binding FreeHours}" Width="Auto"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="선택&#x0a;삭제" Height="150" Width="50" Margin="5"/>
+            <Button Content="선택&#x0a;삭제" Height="150" Width="50" Margin="5" Click="dgSelection_changes"/>
         </StackPanel>
-        <Button Grid.Row="3" Grid.Column="1" Content="확인" Height="30" Width="100" HorizontalAlignment="Center"/>
+        <Button Grid.Row="3" Grid.Column="1" Content="확인" Height="30" Width="100" HorizontalAlignment="Center"
+                Click="btnOK_Click"/>
     </Grid>
 </Window>
